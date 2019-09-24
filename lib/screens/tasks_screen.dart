@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:tasklist/widgets/task_list.dart';
 import 'package:tasklist/screens/add_task_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:tasklist/models/task_data.dart';
 
 class TasksScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.lightBlueAccent,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.lightBlueAccent,
+        child: Icon(Icons.add),
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            builder: (context) => AddTaskScreen(),
+          );
+        },
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -29,18 +41,19 @@ class TasksScreen extends StatelessWidget {
                   height: 10.0,
                 ),
                 Text(
-                  'Tasklist',
+                  'Todoey',
                   style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 50.0,
-                      fontWeight: FontWeight.bold),
+                    color: Colors.white,
+                    fontSize: 50.0,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
                 Text(
-                  '12 Tasks',
+                  '${Provider.of<TaskData>(context).taskCount} Tasks',
                   style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold),
+                    color: Colors.white,
+                    fontSize: 18,
+                  ),
                 ),
               ],
             ),
@@ -48,26 +61,17 @@ class TasksScreen extends StatelessWidget {
           Expanded(
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 20.0),
-              height: 300.0,
               decoration: BoxDecoration(
+                color: Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20.0),
                   topRight: Radius.circular(20.0),
                 ),
-                color: Colors.white,
               ),
-              child: new TasksList(),
+              child: TasksList(),
             ),
           ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.lightBlueAccent,
-        child: Icon(Icons.add),
-        onPressed: () {
-          showModalBottomSheet(
-              context: context, builder: (context) => AddTaskScreen());
-        },
       ),
     );
   }
